@@ -30,26 +30,30 @@ def check_validity(y):
 
     return errors 
 
-valid_users =[]
-invalid_users = []
-for user in data : 
-    temp = check_validity(user)
-    if not len(temp):
-        # print("This is a valid user ")
-        # print(temp)
-        valid_users.append(user)
-    else:
-        # print("This is a nooooot user ")
-        # print(temp)
-        invalid_users.append({"user": user , "error" : temp})
 
-print("this is the list of valid users ---/n")
+def process_users():
+    valid_users =[]
+    invalid_users = []
+    summary = {
+        "total_users": 0,
+        "valid_users": 0,
+        "invalid_users": 0,
+        "adult_users": 0
+    }
+    for user in data : 
+        summary["total_users"]+=1
+        temp = check_validity(user)
+        if not len(temp):
+            summary["valid_users"]+=1
+            valid_users.append(user)
+            if user["age"] >= 18:
+                summary["adult_users"]+=1 
+        else:
+            summary["invalid_users"]+=1
+            invalid_users.append({"user": user , "error" : temp})
+    
+    return valid_users , invalid_users , summary 
 
-print(valid_users)
-
-print("this is the list of invalid users")
-
-print(invalid_users)
 
 
 
